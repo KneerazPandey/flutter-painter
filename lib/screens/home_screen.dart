@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:painter/constant/app_color.dart';
+import 'package:painter/widgets/my_home_painter.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -25,7 +26,6 @@ class HomeScreen extends StatelessWidget {
                   height: size.height * 0.8,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: Colors.white,
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                         blurRadius: 5,
@@ -33,6 +33,17 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.black.withOpacity(0.4),
                       ),
                     ],
+                  ),
+                  child: GestureDetector(
+                    onPanDown: (DragDownDetails details) {},
+                    onPanUpdate: (DragUpdateDetails details) {},
+                    onPanEnd: (DragEndDetails details) {},
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: CustomPaint(
+                        painter: MyHomePainter(),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),

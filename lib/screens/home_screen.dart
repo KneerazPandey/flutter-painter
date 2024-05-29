@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:painter/constant/app_color.dart';
 import 'package:painter/widgets/my_home_painter.dart';
@@ -100,8 +101,24 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: selectedColor,
                           ),
                         ),
+                        Expanded(
+                          child: Slider(
+                            value: strokeWidth,
+                            min: 1,
+                            max: 6,
+                            onChanged: (double value) {
+                              setState(() {
+                                strokeWidth = value;
+                              });
+                            },
+                          ),
+                        ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              points.clear();
+                            });
+                          },
                           icon: const Icon(
                             Icons.layers_clear,
                           ),

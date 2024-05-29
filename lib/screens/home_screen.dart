@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:painter/constant/app_color.dart';
 import 'package:painter/widgets/my_home_painter.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<Offset?> points = [];
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +42,27 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   child: GestureDetector(
-                    onPanDown: (DragDownDetails details) {},
-                    onPanUpdate: (DragUpdateDetails details) {},
-                    onPanEnd: (DragEndDetails details) {},
+                    onPanDown: (DragDownDetails details) {
+                      setState(() {
+                        points.add(details.localPosition);
+                      });
+                    },
+                    onPanUpdate: (DragUpdateDetails details) {
+                      setState(() {
+                        points.add(details.localPosition);
+                      });
+                    },
+                    onPanEnd: (DragEndDetails details) {
+                      setState(() {
+                        points.add(null);
+                      });
+                    },
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: CustomPaint(
-                        painter: MyHomePainter(),
+                        painter: MyHomePainter(
+                          points: points,
+                        ),
                       ),
                     ),
                   ),

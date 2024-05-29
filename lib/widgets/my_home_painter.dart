@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 
 class MyHomePainter extends CustomPainter {
   final List<Offset?> points;
+  final double strokeWidth;
+  final Color selectedColor;
 
   const MyHomePainter({
     required this.points,
+    required this.selectedColor,
+    required this.strokeWidth,
   });
 
   @override
@@ -18,8 +22,8 @@ class MyHomePainter extends CustomPainter {
 
     // Creating lines and points
     Paint paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 2
+      ..color = selectedColor
+      ..strokeWidth = strokeWidth
       ..isAntiAlias = true
       ..strokeCap = StrokeCap.round;
 

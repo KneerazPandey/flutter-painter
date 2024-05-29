@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:painter/constant/app_color.dart';
 import 'package:painter/widgets/my_home_painter.dart';
 
@@ -11,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Offset?> points = [];
+  Color selectedColor = Colors.black;
+  double strokeWidth = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: CustomPaint(
                         painter: MyHomePainter(
                           points: points,
+                          selectedColor: selectedColor,
+                          strokeWidth: strokeWidth,
                         ),
                       ),
                     ),
@@ -87,9 +92,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
+                          onPressed: () {
+                            selectColor();
+                          },
+                          icon: Icon(
                             Icons.color_lens,
+                            color: selectedColor,
                           ),
                         ),
                         IconButton(
@@ -107,6 +115,35 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void selectColor() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Color Picker'),
+          content: SingleChildScrollView(
+            child: BlockPicker(
+              pickerColor: selectedColor,
+              onColorChanged: (Color color) {
+                setState(() {
+                  selectedColor = color;
+                });
+              },
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

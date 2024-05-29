@@ -1,9 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:painter/models/drawing_area.dart';
 
 class MyHomePainter extends CustomPainter {
-  final List<Offset?> points;
+  final List<DrawingArea?> points;
   final double strokeWidth;
   final Color selectedColor;
 
@@ -20,18 +21,19 @@ class MyHomePainter extends CustomPainter {
     Rect rectangle = Rect.fromLTWH(0, 0, size.width, size.height);
     canvas.drawRect(rectangle, backgroundPainter);
 
-    // Creating lines and points
-    Paint paint = Paint()
-      ..color = selectedColor
-      ..strokeWidth = strokeWidth
-      ..isAntiAlias = true
-      ..strokeCap = StrokeCap.round;
-
     for (int i = 0; i < points.length - 1; i++) {
       if (points[i] != null && points[i + 1] != null) {
-        canvas.drawLine(points[i]!, points[i + 1]!, paint);
+        canvas.drawLine(
+          points[i]!.offset,
+          points[i + 1]!.offset,
+          points[i]!.paint,
+        );
       } else if (points[i] != null && points[i + 1] == null) {
-        canvas.drawPoints(PointMode.points, [points[i]!], paint);
+        canvas.drawPoints(
+          PointMode.points,
+          [points[i]!.offset],
+          points[i]!.paint,
+        );
       }
     }
   }

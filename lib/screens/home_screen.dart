@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:painter/constant/app_color.dart';
+import 'package:painter/models/drawing_area.dart';
 import 'package:painter/widgets/my_home_painter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,9 +12,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Offset?> points = [];
   Color selectedColor = Colors.black;
   double strokeWidth = 2;
+  List<DrawingArea?> points = [];
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +47,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: GestureDetector(
                     onPanDown: (DragDownDetails details) {
+                      Offset offset = details.localPosition;
+                      Paint paint = Paint()
+                        ..color = selectedColor
+                        ..strokeWidth = strokeWidth
+                        ..isAntiAlias = true
+                        ..strokeCap = StrokeCap.round;
+                      DrawingArea drawingArea = DrawingArea(
+                        offset: offset,
+                        paint: paint,
+                      );
                       setState(() {
-                        points.add(details.localPosition);
+                        points.add(drawingArea);
                       });
                     },
                     onPanUpdate: (DragUpdateDetails details) {
+                      Offset offset = details.localPosition;
+                      Paint paint = Paint()
+                        ..color = selectedColor
+                        ..strokeWidth = strokeWidth
+                        ..isAntiAlias = true
+                        ..strokeCap = StrokeCap.round;
+                      DrawingArea drawingArea = DrawingArea(
+                        offset: offset,
+                        paint: paint,
+                      );
                       setState(() {
-                        points.add(details.localPosition);
+                        points.add(drawingArea);
                       });
                     },
                     onPanEnd: (DragEndDetails details) {
